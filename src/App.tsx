@@ -20,6 +20,7 @@ const sparkData2 = [{ v: 1 }, { v: 1 }, { v: 2 }, { v: 2 }, { v: 3 }, { v: 2 }, 
 const sparkData3 = [{ v: 4 }, { v: 3 }, { v: 5 }, { v: 4 }, { v: 7 }, { v: 6 }, { v: 9 }];
 
 export default function App() {
+  const [activeTab, setActiveTab] = useState('Home');
   const [apiKey, setApiKey] = useState('');
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [processState, setProcessState] = useState<ProcessState>('idle');
@@ -119,11 +120,11 @@ export default function App() {
           </button>
         </div>
 
-        <nav className="flex-1 px-4 space-y-1 overflow-y-auto">
-          <NavItem icon={<Home />} label="Home" active />
-          <NavItem icon={<Library />} label="Library" />
-          <NavItem icon={<BarChart2 />} label="Analytics" />
-          <NavItem icon={<Download />} label="Export" />
+        <nav className="flex-1 px-4 space-y-1 overflow-y-auto mt-4">
+          <NavItem icon={<Home />} label="Home" active={activeTab === 'Home'} onClick={() => setActiveTab('Home')} />
+          <NavItem icon={<Library />} label="Library" active={activeTab === 'Library'} onClick={() => setActiveTab('Library')} />
+          <NavItem icon={<BarChart2 />} label="Analytics" active={activeTab === 'Analytics'} onClick={() => setActiveTab('Analytics')} />
+          <NavItem icon={<Download />} label="Export" active={activeTab === 'Export'} onClick={() => setActiveTab('Export')} />
         </nav>
 
         <div className="p-4 space-y-4">
@@ -140,8 +141,8 @@ export default function App() {
             />
           </div>
           <nav className="space-y-1">
-            <NavItem icon={<HelpCircle />} label="Help" />
-            <NavItem icon={<Archive />} label="Archive" />
+            <NavItem icon={<HelpCircle />} label="Help" active={activeTab === 'Help'} onClick={() => setActiveTab('Help')} />
+            <NavItem icon={<Archive />} label="Archive" active={activeTab === 'Archive'} onClick={() => setActiveTab('Archive')} />
           </nav>
         </div>
       </aside>
@@ -184,7 +185,9 @@ export default function App() {
         {/* SCROLLABLE VIEWPORT */}
         <div className="flex-1 overflow-y-auto px-10 pb-10">
           
-          <div className="mb-8 mt-2">
+          {activeTab === 'Home' && (
+            <div className="animate-in fade-in max-w-7xl mx-auto">
+              <div className="mb-8 mt-2">
             <h2 className="text-3xl font-bold text-slate-800 tracking-tight">
               Advanced <span className="text-blue-600">Research</span> Analysis Hub
             </h2>
@@ -448,6 +451,162 @@ export default function App() {
             </div>
 
           </div>
+          </div>
+          )}
+          
+          {/* LIBRARY TAB */}
+          {activeTab === 'Library' && (
+            <div className="animate-in fade-in max-w-7xl mx-auto">
+              <div className="mb-8 mt-2 flex justify-between items-center">
+                <h2 className="text-3xl font-bold text-slate-800 tracking-tight">
+                  Document <span className="text-blue-600">Library</span>
+                </h2>
+                <div className="flex gap-3 text-sm">
+                  <button className="bg-white/60 border border-slate-200 px-4 py-2 rounded-lg font-medium text-slate-700 shadow-sm hover:bg-white cursor-pointer transition-all">Filter</button>
+                  <button className="bg-white/60 border border-slate-200 px-4 py-2 rounded-lg font-medium text-slate-700 shadow-sm hover:bg-white cursor-pointer transition-all">Sort by Date</button>
+                </div>
+              </div>
+              <div className="bg-white/40 backdrop-blur-xl border border-white shadow-sm rounded-3xl p-6">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="border-b border-white text-slate-500 text-sm">
+                      <th className="py-4 px-4 font-semibold">Document Name</th>
+                      <th className="py-4 px-4 font-semibold">Date Added</th>
+                      <th className="py-4 px-4 font-semibold">Status</th>
+                      <th className="py-4 px-4 font-semibold">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="border-b border-white/50 hover:bg-white/30 transition-colors">
+                      <td className="py-4 px-4 font-medium flex items-center gap-3"><FileText className="w-5 h-5 text-blue-500 shrink-0" /> Attention is All You Need.pdf</td>
+                      <td className="py-4 px-4 text-slate-600 whitespace-nowrap">2 hours ago</td>
+                      <td className="py-4 px-4"><span className="px-2 py-1 bg-emerald-100 text-emerald-700 rounded-lg text-xs font-bold tracking-wider uppercase">Analyzed</span></td>
+                      <td className="py-4 px-4"><button className="text-blue-600 font-semibold text-sm hover:underline cursor-pointer">View Report</button></td>
+                    </tr>
+                    <tr className="border-b border-white/50 hover:bg-white/30 transition-colors">
+                      <td className="py-4 px-4 font-medium flex items-center gap-3"><FileText className="w-5 h-5 text-slate-500 shrink-0" /> arXiv:2303.08774.pdf</td>
+                      <td className="py-4 px-4 text-slate-600 whitespace-nowrap">Yesterday</td>
+                      <td className="py-4 px-4"><span className="px-2 py-1 bg-amber-100 text-amber-700 rounded-lg text-xs font-bold tracking-wider uppercase">Pending</span></td>
+                      <td className="py-4 px-4"><button className="text-blue-600 font-semibold text-sm hover:underline cursor-pointer">Start Analysis</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+          
+          {/* ANALYTICS TAB */}
+          {activeTab === 'Analytics' && (
+            <div className="animate-in fade-in max-w-7xl mx-auto">
+              <div className="mb-8 mt-2">
+                <h2 className="text-3xl font-bold text-slate-800 tracking-tight">
+                  Insight <span className="text-blue-600">Analytics</span>
+                </h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-white/40 backdrop-blur-xl border border-white shadow-sm p-6 rounded-3xl h-64 flex flex-col justify-between">
+                  <h3 className="font-semibold text-slate-700 mb-4">Total Documents Processed</h3>
+                  <div className="flex-1 w-full flex items-end">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <LineChart data={[{v:0}, {v:12}, {v:24}, {v:18}, {v:30}, {v:45}]}>
+                        <Line type="monotone" dataKey="v" stroke="#3B82F6" strokeWidth={3} dot={true} />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+                <div className="bg-white/40 backdrop-blur-xl border border-white shadow-sm p-6 rounded-3xl h-64 flex flex-col justify-between">
+                  <h3 className="font-semibold text-slate-700 mb-4">API Usage vs Insights Generated</h3>
+                  <div className="flex-1 w-full flex items-end">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <LineChart data={[{v:10}, {v:15}, {v:35}, {v:25}, {v:50}, {v:70}]}>
+                        <Line type="monotone" dataKey="v" stroke="#10B981" strokeWidth={3} dot={true} />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* EXPORT TAB */}
+          {activeTab === 'Export' && (
+            <div className="animate-in fade-in max-w-4xl mx-auto">
+              <div className="mb-8 mt-2">
+                <h2 className="text-3xl font-bold text-slate-800 tracking-tight">
+                  Data <span className="text-blue-600">Exports</span>
+                </h2>
+                <p className="text-slate-500 mt-2">Download your generated insights and full literature matrix.</p>
+              </div>
+              <div className="space-y-4">
+                <div className="bg-white/60 backdrop-blur-xl border border-white shadow-sm rounded-2xl p-6 flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center">
+                      <FileText className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-slate-800">Knowledge Matrix (CSV)</h4>
+                      <p className="text-sm text-slate-500">Structured data of all extracted papers.</p>
+                    </div>
+                  </div>
+                  <button className="bg-blue-600 cursor-pointer hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-medium shadow-sm transition-all flex items-center gap-2">
+                    <Download className="w-4 h-4" /> Download CSV
+                  </button>
+                </div>
+                <div className="bg-white/60 backdrop-blur-xl border border-white shadow-sm rounded-2xl p-6 flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center">
+                      <File className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-slate-800">All Deep Reviews (PDF)</h4>
+                      <p className="text-sm text-slate-500">Batch export of qualitative analyses.</p>
+                    </div>
+                  </div>
+                  <button className="bg-emerald-600 cursor-pointer hover:bg-emerald-700 text-white px-5 py-2 rounded-lg font-medium shadow-sm transition-all flex items-center gap-2">
+                    <Download className="w-4 h-4" /> Download PDF
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* HELP TAB */}
+          {activeTab === 'Help' && (
+            <div className="animate-in fade-in max-w-4xl mx-auto">
+              <div className="mb-8 mt-2">
+                <h2 className="text-3xl font-bold text-slate-800 tracking-tight">
+                  Help & <span className="text-blue-600">Documentation</span>
+                </h2>
+              </div>
+              <div className="bg-white/60 backdrop-blur-xl border border-white shadow-sm rounded-3xl p-8 space-y-6">
+                <div>
+                  <h3 className="text-xl font-bold text-slate-800 mb-2">How do I use Alexandria?</h3>
+                  <p className="text-slate-600 leading-relaxed">Simply drag and drop a PDF on the Home page, or click "Browse Files". The system will automatically use the 3 agents to extract data, critically review the methodology, and synthesize a final report.</p>
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-slate-800 mb-2">How do I configure my API Key?</h3>
+                  <p className="text-slate-600 leading-relaxed">You can paste your Gemini API key into the sidebar at the bottom left. By default, the system will use the server's attached credentials.</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ARCHIVE TAB */}
+          {activeTab === 'Archive' && (
+            <div className="animate-in fade-in max-w-7xl mx-auto">
+              <div className="mb-8 mt-2">
+                <h2 className="text-3xl font-bold text-slate-800 tracking-tight">
+                  Archived <span className="text-blue-600">Items</span>
+                </h2>
+              </div>
+              <div className="bg-white/40 backdrop-blur-xl border border-white shadow-sm rounded-3xl p-6 text-center py-20">
+                <Archive className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-slate-700">No archived items</h3>
+                <p className="text-slate-500 mt-1">Items you archive will appear here.</p>
+              </div>
+            </div>
+          )}
+
         </div>
       </main>
 
@@ -466,15 +625,15 @@ export default function App() {
 
 // ------ Helper Components ------
 
-function NavItem({ icon, label, active = false }: { icon: React.ReactNode; label: string; active?: boolean }) {
+function NavItem({ icon, label, active = false, onClick }: { icon: React.ReactNode; label: string; active?: boolean, onClick?: () => void }) {
   return (
-    <a href="#" className={cn(
-      "flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all text-sm",
+    <button onClick={onClick} className={cn(
+      "w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all text-sm cursor-pointer",
       active ? "bg-blue-600/10 text-blue-700 shadow-sm" : "text-slate-500 hover:bg-white/50 hover:text-slate-800"
     )}>
       {React.cloneElement(icon as React.ReactElement, { className: "w-5 h-5" })}
       {label}
-    </a>
+    </button>
   );
 }
 
