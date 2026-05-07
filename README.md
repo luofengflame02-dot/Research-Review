@@ -184,14 +184,3 @@ We evaluate:
 
 ---
 
-## 📎 Citation
-
-If you use this repository:
-
-```bibtex
-@misc{research_review,
-  title={Research Review: Time Series & Multimodal Learning Hub},
-  author={luofeng},
-  year={2026}
-}
-```
